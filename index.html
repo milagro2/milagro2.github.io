@@ -24,18 +24,7 @@
   <!-- End Jekyll SEO tag -->
   <link rel="stylesheet" href="/assets/main.css">
   <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" />
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch('navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                const navbarContainer = document.createElement('div');
-                navbarContainer.innerHTML = data;
-                const header = document.getElementById('page-top');
-                header.insertAdjacentElement('afterend', navbarContainer.firstChild);
-            });
-    });
-</script>
+
 </head>
 
 <body>
@@ -54,6 +43,13 @@
         </label>
 
         <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+        <li><a href="StHome.html">Home</a></li>
+        <li><a href="Agile.html">Agile</a></li>
+        <li><a href="DevOps.html">DevOps</a></li>
+        <li><a href="Gesprek.html">Gespreksverslag</a></li>
+        <li><a href="ToDo.html">To do</a></li>
+        <li><a href="about.html">Game</a></li>
+        <li><a href="index.html">Jekyll home</a></li>
       </nav>
     </div>
   </header>
