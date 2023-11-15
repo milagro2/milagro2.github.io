@@ -24,6 +24,18 @@
   <!-- End Jekyll SEO tag -->
   <link rel="stylesheet" href="/assets/main.css">
   <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                const navbarContainer = document.createElement('div');
+                navbarContainer.innerHTML = data;
+                const header = document.getElementById('page-top');
+                header.insertAdjacentElement('afterend', navbarContainer.firstChild);
+            });
+    });
+</script>
 </head>
 
 <body>
