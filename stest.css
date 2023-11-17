@@ -528,7 +528,8 @@ img {
     }
 
     nav li {
-        margin: 0 0;
+        display: block;
+        margin: 10px 0;
     }
 
     .cicddiv {
@@ -552,6 +553,19 @@ img {
         top: 4.2%;
         font-size: 2.5vw;
     }
+
+    #navbar .right-nav {
+        display: none;
+    }
+
+    #navbar {
+        padding: 5%;
+    }
+
+    nav li:hover a {
+        color: #ff4800a0; 
+    }
+
 
     .agdiv h1,
     .manifdiv h1,
