@@ -529,6 +529,9 @@ img {
         text-align: center;
     }
 
+    .top {
+        display: none;
+    }
 
     nav ul {
         font-size: 3vw;
@@ -615,7 +618,7 @@ img {
     }
 
     nav ul {
-        font-size: 1.5vw; 
+        font-size: 1.1vw; 
         padding: 0.5;
     }
 
