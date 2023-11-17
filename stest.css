@@ -517,6 +517,8 @@ img {
     }
 }
 
+
+
 @media (max-width: 600px) {
     header {
         padding: 5%;
@@ -537,7 +539,7 @@ img {
     }
 
     #navbar li {
-        margin-right: 0px;
+        margin-right: 9px;
     }
 
     .cicddiv {
