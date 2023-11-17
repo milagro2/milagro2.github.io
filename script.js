@@ -8,7 +8,14 @@ window.onscroll = function () {
 };
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleNavButton = document.getElementById("toggleNav");
+    const navList = document.querySelector("#navbar ul");
 
+    toggleNavButton.addEventListener("click", function () {
+        navList.style.display = (navList.style.display === "flex" || navList.style.display === "") ? "none" : "flex";
+    });
+});
 
 
 

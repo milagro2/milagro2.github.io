@@ -527,13 +527,16 @@ img {
         text-align: center;
     }
 
-    #navbar {
-        flex-direction: column;
-        align-items: center;
-    }
-
     #navbar ul {
-        margin-top: 10px;
+        display: none;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        /* Adjust the top position as needed */
+        background-color: #535353;
+        /* Adjust the background color as needed */
     }
 
     #navbar li {
@@ -542,8 +545,21 @@ img {
     }
 
     #navbar .right-nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #navbar .right-nav button {
         margin-top: 10px;
-        justify-content: center;
+    }
+
+    #navbar.hidden ul {
+        display: none;
+    }
+
+    #navbar.sticky ul {
+        position: static;
+        display: flex;
     }
 
     nav ul {
