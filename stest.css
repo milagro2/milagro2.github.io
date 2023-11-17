@@ -607,3 +607,24 @@ img {
     }
 
 }
+
+@media (orientation: landscape) {
+    header {
+        font-size: 2vw; 
+        padding: 3;
+    }
+
+    nav ul {
+        font-size: 1.5vw; 
+        padding: 0.5;
+    }
+
+    #navbar {
+        padding: 1;
+    }
+
+    #navbar li {
+        margin-right: 15px; 
+    }
+}
+
