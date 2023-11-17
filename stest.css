@@ -523,6 +523,29 @@ img {
         font-size: 4vw;
     }
 
+    nav {
+        text-align: center;
+    }
+
+    #navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #navbar ul {
+        margin-top: 10px;
+    }
+
+    #navbar li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    #navbar .right-nav {
+        margin-top: 10px;
+        justify-content: center;
+    }
+
     nav ul {
         font-size: 3vw;
     }
