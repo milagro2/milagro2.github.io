@@ -583,6 +583,7 @@ img {
     .tododiv h1,
     .notesdiv h1,
     .donediv h1,
+    .book1div h1,
     .gesprekdiv h1 {
         font-size: 6vw;
     }
@@ -599,6 +600,7 @@ img {
     .notesdiv p,
     .donediv p,
     .benefitdiv p,
+    .book1div p,
     .gesprekdiv p {
         font-size: 3vw;
     }
