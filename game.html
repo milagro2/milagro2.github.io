@@ -13,16 +13,14 @@
             height: 100vh;
             margin: 0;
         }
-
         li {
+
             list-style: none;
         }
-
         a {
             color: red;
             font-size: 2vw;
         }
-
         a:hover {
             color: green;
         }
@@ -85,7 +83,7 @@
 
     <li><a href="Agile.html">Home</a></li>
 
-    <canvas id="gameCanvas" width="300" height="500"></canvas>
+    <canvas id="gameCanvas" width="900" height="700"></canvas>
     <p id="gameOverMessage"></p>
     <button id="playAgainButton" onclick="resetGame()">Play Again</button>
     <button id="nextGameButton" onclick="startNextGame()" style="display: none;">Next Game</button>
@@ -106,10 +104,10 @@
         const greenPuckColor = '#00ff00';
         const paddleColor = '#0000ff';
 
-        const tableWidth = 300;
-        const tableHeight = 500;
+        const tableWidth = 900;
+        const tableHeight = 700;
 
-        const paddleWidth = 50;
+        const paddleWidth = 100;
         const paddleHeight = 10;
 
         let pucks = [];
@@ -123,8 +121,8 @@
         let paddleX = tableWidth / 2 - paddleWidth / 2;
         let paddleY = tableHeight - 2 * paddleHeight;
 
-        const brickWidth = 50;
-        const brickHeight = 10;
+        const brickWidth = 100;
+        const brickHeight = 20;
         const bricks = [];
 
         let autoPlay = false;
@@ -132,11 +130,9 @@
         let maxSpeed = 15;
         let intervalId;
 
-        canvas.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-            const touch = event.touches[0];
+        canvas.addEventListener('mousemove', (event) => {
             if (!autoPlay) {
-                paddleX = touch.clientX - canvas.getBoundingClientRect().left - paddleWidth / 2;
+                paddleX = event.clientX - canvas.getBoundingClientRect().left - paddleWidth / 2;
             }
         });
 
@@ -171,8 +167,8 @@
         }
 
         function generateBrickGrid(rows, columns) {
-            const brickWidthWithPadding = 45;
-            const brickHeightWithPadding = 10;
+            const brickWidthWithPadding = 95;
+            const brickHeightWithPadding = 20;
             const padding = 5;
 
             const totalGridWidth = columns * (brickWidthWithPadding + padding) - padding;
@@ -187,9 +183,9 @@
                     // Randomly select color for the brick
                     let brickColor = "#808080";
                     const randomValue = Math.random();
-                    if (randomValue < 0.1) {
+                    if (randomValue < 0.5) {
                         brickColor = "#00ff00";
-                    } else if (randomValue < 0.2) {
+                    } else if (randomValue < 0.4) {
                         brickColor = "#ff0000";
                     }
 
@@ -207,7 +203,7 @@
 
         function resetBricks() {
             bricks.length = 0;
-            generateBrickGrid(5, 5);
+            generateBrickGrid(5, 9);
         }
 
         resetBricks();
@@ -361,7 +357,7 @@
 
         function startNextGame() {
             bricks.length = 0;
-            generateBrickGrid(5, 5);
+            generateBrickGrid(5, 9);
             gameOverMessage.textContent = '';
             playAgainButton.style.display = 'none';
             nextGameButton.style.display = 'none';
@@ -375,7 +371,7 @@
 
         function resetGame() {
             bricks.length = 0;
-            generateBrickGrid(5, 5);
+            generateBrickGrid(5, 9);
             gameOverMessage.textContent = '';
             playAgainButton.style.display = 'none';
             nextGameButton.style.display = 'none';
