@@ -179,6 +179,7 @@ html {
 .tododiv p,
 .notesdiv p,
 .donediv p,
+.book1div p,
 .gesprekdiv p {
     font-size: 1.3vw;
     /* transition: ease color 1s; */
@@ -198,6 +199,7 @@ html {
 .tododiv h1,
 .notesdiv h1,
 .donediv h1,
+.book1div h1,
 .gesprekdiv h1 {
     font-size: 2vw;
     color: #ff4900b0;
@@ -216,6 +218,7 @@ html {
 .agprdiv,
 .lemudiv,
 .toolsdiv,
+.book1div,
 .gesprekdiv {
     display: flex;
     align-items: center;
@@ -236,6 +239,7 @@ html {
 .tools-text,
 .lemu-text,
 .tools-text,
+.book1-text,
 .gesprek-text {
     flex: 2;
     margin: 0 15% 0 0;
@@ -575,6 +579,7 @@ img {
     .tododiv h1,
     .notesdiv h1,
     .donediv h1,
+    .book1div h1,
     .gesprekdiv h1 {
         font-size: 6vw;
     }
@@ -590,6 +595,7 @@ img {
     .tododiv p,
     .notesdiv p,
     .donediv p,
+    .book1div p,
     .gesprekdiv p {
         font-size: 3vw;
     }
