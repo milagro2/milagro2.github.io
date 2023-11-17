@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             background-color: black;
@@ -14,7 +13,6 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden; /* Prevent scrolling on mobile */
         }
 
         li {
@@ -24,7 +22,6 @@
         a {
             color: red;
             font-size: 2vw;
-            text-decoration: none;
         }
 
         a:hover {
@@ -39,13 +36,20 @@
             margin-bottom: 20px;
         }
 
-        #playAgainButton,
-        #nextGameButton,
-        #autoPlayButton,
+        #playAgainButton {
+            display: none;
+        }
+
+        #nextGameButton {
+            display: none;
+        }
+
+        #autoPlayButton {
+            margin-bottom: 10px;
+        }
+
         #speedButton {
-            margin: 10px;
-            padding: 10px;
-            font-size: 16px;
+            margin-bottom: 10px;
         }
 
         nav {
@@ -62,7 +66,7 @@
 
         nav li {
             display: inline;
-            margin: 0 10px;
+            margin: 0 20px;
         }
 
         nav a {
@@ -80,11 +84,7 @@
 
 <body>
 
-    <nav id="navbar">
-        <ul>
-            <li><a href="StHome.php">Home</a></li>
-        </ul>
-    </nav>
+    <li><a href="StHome.html">Home</a></li>
 
     <canvas id="gameCanvas" width="900" height="700"></canvas>
     <p id="gameOverMessage"></p>
@@ -104,14 +104,16 @@
 
         const tableColor = '#3c3c3c';
         const puckColor = '#ff0000';
+        const greenPuckColor = '#00ff00';
         const paddleColor = '#0000ff';
-        const brickColor = 'white';
 
         const tableWidth = 900;
         const tableHeight = 700;
 
         const paddleWidth = 100;
         const paddleHeight = 10;
+
+        let pucks = [];
 
         let puckX = tableWidth / 2;
         let puckY = tableHeight / 2;
@@ -131,17 +133,23 @@
         let maxSpeed = 15;
         let intervalId;
 
-        canvas.addEventListener('mousemove', (event) => {
-            if (!autoPlay) {
-                paddleX = event.clientX - canvas.getBoundingClientRect().left - paddleWidth / 2;
-            }
+        // Handle touch events for mobile devices
+        let touchStartX;
+
+        canvas.addEventListener('touchstart', (event) => {
+            touchStartX = event.touches[0].clientX;
         });
 
         canvas.addEventListener('touchmove', (event) => {
-            if (!autoPlay) {
-                const touch = event.touches[0];
-                paddleX = touch.clientX - canvas.getBoundingClientRect().left - paddleWidth / 2;
-            }
+            event.preventDefault();
+            let touchMoveX = event.touches[0].clientX;
+            let touchDeltaX = touchMoveX - touchStartX;
+            paddleX += touchDeltaX;
+            touchStartX = touchMoveX;
+        });
+
+        canvas.addEventListener('touchend', () => {
+            touchStartX = null;
         });
 
         function toggleAutoPlay() {
@@ -149,20 +157,7 @@
             if (autoPlay) {
                 autoPlayButton.textContent = 'Manual Play';
                 intervalId = setInterval(() => {
-                    let closestPuck = null;
-                    let minDistance = tableHeight;
-
-                    pucks.forEach((puck) => {
-                        if (puck.y > paddleY && puck.y < minDistance) {
-                            closestPuck = puck;
-                            minDistance = puck.y;
-                        }
-                    });
-
-                    if (closestPuck) {
-                        paddleX = closestPuck.x - paddleWidth / 2;
-                    }
-
+                    paddleX = puckX - paddleWidth / 2;
                     if (bricks.every((brick) => brick.broken)) {
                         startNextGame();
                         speedUp();
@@ -187,7 +182,6 @@
             speedUp = !speedUp;
         }
 
-
         function generateBrickGrid(rows, columns) {
             const brickWidthWithPadding = 95;
             const brickHeightWithPadding = 20;
@@ -202,11 +196,14 @@
                     const brickX = initialX + j * (brickWidthWithPadding + padding);
                     const brickY = initialY + i * (brickHeightWithPadding + padding);
 
-                    // Generate random color for each brick
-                    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-
-                    // Generate random chance for red or grey brick
-                    const isRed = Math.random() < 0.1; // 10% chance for red brick
+                    // Randomly select color for the brick
+                    let brickColor = "#808080";
+                    const randomValue = Math.random();
+                    if (randomValue < 0.1) {
+                        brickColor = "#00ff00";
+                    } else if (randomValue < 0.4) {
+                        brickColor = "#ff0000";
+                    }
 
                     bricks.push({
                         x: brickX,
@@ -214,8 +211,7 @@
                         width: brickWidthWithPadding - padding,
                         height: brickHeightWithPadding - padding,
                         broken: false,
-                        color: isRed ? 'red' : 'grey', // Set color based on chance
-                        isGreen: Math.random() < 1 / 3, // 1 in 3 chance for green brick
+                        color: brickColor,
                     });
                 }
             }
@@ -235,12 +231,24 @@
             if (gameStarted) {
                 puckX += puckSpeedX;
                 puckY += puckSpeedY;
+
+                pucks.forEach((puck) => {
+                    puck.x += puck.speedX;
+                    puck.y += puck.speedY;
+                });
             }
 
             context.fillStyle = puckColor;
             context.beginPath();
             context.arc(puckX, puckY, 10, 0, 2 * Math.PI);
             context.fill();
+
+            pucks.forEach((puck) => {
+                context.fillStyle = greenPuckColor;
+                context.beginPath();
+                context.arc(puck.x, puck.y, 10, 0, 2 * Math.PI);
+                context.fill();
+            });
 
             context.fillStyle = paddleColor;
             context.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
@@ -281,18 +289,19 @@
                         puckX <= brick.x + brick.width
                     ) {
                         puckSpeedY = -puckSpeedY;
-                        brick.broken = true;
-
-                        if (brick.isGreen) {
-                            // Spawn a new puck for green brick
-                            const newPuckSpeedX = Math.random() < 0.5 ? -5 : 5; // Random direction
-                            const newPuckSpeedY = 5;
-                            pucks.push({
+                        if (brick.color === "#ff0000") {
+                            brick.color = "#808080";
+                        } else if (brick.color === "#00ff00") {
+                            let newPuck = {
                                 x: brick.x + brick.width / 2,
-                                y: brick.y + brick.height / 2,
-                                speedX: newPuckSpeedX,
-                                speedY: newPuckSpeedY,
-                            });
+                                y: brick.y + brick.height + 10,
+                                speedX: Math.random() * 6 - 3,
+                                speedY: Math.random() * 6,
+                            };
+                            pucks.push(newPuck);
+                            brick.broken = true;
+                        } else {
+                            brick.broken = true;
                         }
 
                         if (bricks.every((brick) => brick.broken)) {
@@ -303,28 +312,55 @@
                 }
             });
 
-            // Update and draw green pucks
-            pucks.forEach((greenPuck) => {
-                greenPuck.x += greenPuck.speedX;
-                greenPuck.y += greenPuck.speedY;
-
-                context.fillStyle = puckColor;
-                context.beginPath();
-                context.arc(greenPuck.x, greenPuck.y, 10, 0, 2 * Math.PI);
-                context.fill();
-
-                // Check collisions with walls
-                if (greenPuck.x <= 0 || greenPuck.x >= tableWidth) {
-                    greenPuck.speedX = -greenPuck.speedX;
+            pucks.forEach((puck) => {
+                if (puck.y + 10 >= tableHeight) {
+                    pucks = pucks.filter((p) => p !== puck);
                 }
 
-                if (greenPuck.y <= 0) {
-                    greenPuck.speedY = -greenPuck.speedY;
+                if (puck.x <= 0 || puck.x >= tableWidth) {
+                    puck.speedX = -puck.speedX;
                 }
+
+                if (
+                    puck.y + 10 >= paddleY &&
+                    puck.x >= paddleX &&
+                    puck.x <= paddleX + paddleWidth
+                ) {
+                    puck.speedY = -puck.speedY;
+                }
+
+                bricks.forEach((brick) => {
+                    if (!brick.broken) {
+                        if (
+                            puck.y - 10 <= brick.y + brick.height &&
+                            puck.y - 10 >= brick.y &&
+                            puck.x >= brick.x &&
+                            puck.x <= brick.x + brick.width
+                        ) {
+                            puck.speedY = -puck.speedY;
+                            if (brick.color === "#ff0000") {
+                                brick.color = "#808080";
+                            } else if (brick.color === "#00ff00") {
+                                let newPuck = {
+                                    x: brick.x + brick.width / 2,
+                                    y: brick.y + brick.height + 10,
+                                    speedX: Math.random() * 6 - 3,
+                                    speedY: Math.random() * 6,
+                                };
+                                pucks.push(newPuck);
+                                brick.broken = true;
+                            } else {
+                                brick.broken = true;
+                            }
+
+                            if (bricks.every((brick) => brick.broken)) {
+                                gameStarted = false;
+                                nextGameButton.style.display = 'block';
+                            }
+                        }
+                    }
+                });
             });
-
-            // Remove green pucks that go beyond the canvas
-            pucks = pucks.filter((greenPuck) => greenPuck.y <= tableHeight);
 
             requestAnimationFrame(draw);
         }
@@ -345,6 +381,7 @@
             puckY = tableHeight / 2;
             puckSpeedX = 5;
             puckSpeedY = 5;
+            pucks = [];
             gameStarted = true;
         }
 
@@ -358,6 +395,7 @@
             puckY = tableHeight / 2;
             puckSpeedX = 5;
             puckSpeedY = 5;
+            pucks = [];
             gameStarted = false;
         }
 
@@ -366,8 +404,6 @@
                 gameStarted = true;
             }
         });
-
-        let pucks = [];
 
         draw();
     </script>
