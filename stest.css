@@ -526,7 +526,7 @@ img {
     nav {
         text-align: center;
     }
-    
+
 
     nav ul {
         font-size: 3vw;
@@ -534,6 +534,10 @@ img {
 
     nav li {
         margin: 0 0;
+    }
+
+    #navbar li {
+        margin-right: 0px;
     }
 
     .cicddiv {
