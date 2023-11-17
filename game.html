@@ -2,7 +2,6 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             background-color: black;
@@ -14,16 +13,14 @@
             height: 100vh;
             margin: 0;
         }
-
         li {
+
             list-style: none;
         }
-
         a {
             color: red;
             font-size: 2vw;
         }
-
         a:hover {
             color: green;
         }
@@ -84,7 +81,7 @@
 
 <body>
 
-    <li><a href="StHome.html">Home</a></li>
+    <li><a href="Agile.html">Home</a></li>
 
     <canvas id="gameCanvas" width="900" height="700"></canvas>
     <p id="gameOverMessage"></p>
@@ -133,23 +130,10 @@
         let maxSpeed = 15;
         let intervalId;
 
-        // Handle touch events for mobile devices
-        let touchStartX;
-
-        canvas.addEventListener('touchstart', (event) => {
-            touchStartX = event.touches[0].clientX;
-        });
-
-        canvas.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-            let touchMoveX = event.touches[0].clientX;
-            let touchDeltaX = touchMoveX - touchStartX;
-            paddleX += touchDeltaX;
-            touchStartX = touchMoveX;
-        });
-
-        canvas.addEventListener('touchend', () => {
-            touchStartX = null;
+        canvas.addEventListener('mousemove', (event) => {
+            if (!autoPlay) {
+                paddleX = event.clientX - canvas.getBoundingClientRect().left - paddleWidth / 2;
+            }
         });
 
         function toggleAutoPlay() {
@@ -199,7 +183,7 @@
                     // Randomly select color for the brick
                     let brickColor = "#808080";
                     const randomValue = Math.random();
-                    if (randomValue < 0.1) {
+                    if (randomValue < 0.5) {
                         brickColor = "#00ff00";
                     } else if (randomValue < 0.4) {
                         brickColor = "#ff0000";
@@ -243,13 +227,6 @@
             context.arc(puckX, puckY, 10, 0, 2 * Math.PI);
             context.fill();
 
-            pucks.forEach((puck) => {
-                context.fillStyle = greenPuckColor;
-                context.beginPath();
-                context.arc(puck.x, puck.y, 10, 0, 2 * Math.PI);
-                context.fill();
-            });
-
             context.fillStyle = paddleColor;
             context.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
 
@@ -258,6 +235,13 @@
                     context.fillStyle = brick.color;
                     context.fillRect(brick.x, brick.y, brick.width, brick.height);
                 }
+            });
+
+            pucks.forEach((puck) => {
+                context.fillStyle = greenPuckColor;
+                context.beginPath();
+                context.arc(puck.x, puck.y, 10, 0, 2 * Math.PI);
+                context.fill();
             });
 
             if (puckY + 10 >= tableHeight) {
