@@ -206,7 +206,7 @@ html {
 .agprdiv,
 .lemudiv,
 .toolsdiv,
-.book1div
+.book1div,
 .gesprekdiv {
     display: flex;
     align-items: center;
